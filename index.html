@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FreDo AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0d0d0d">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- ☰ MENU BUTTON -->
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- OVERLAY -->
+    <div id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- 🔹 SIDEBAR -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <button class="new-chat-top" onclick="createNewChat()">+ New Chat</button>
+            <button class="close-btn" onclick="toggleSidebar()">✖</button>
+        </div>
+        <div id="chatList" class="chat-list"></div>
+    </div>
+
+    <!-- 🔹 MAIN CHAT -->
+    <div class="app">
+        <div class="header">
+            <div class="header-title">🤖 FreDo AI</div>
+            <div class="header-subtitle">Preview</div>
+        </div>
+
+        <div id="chat" class="chat">
+            <div id="emptyState" class="empty-state">
+                <h2>Welcome to FreDo AI</h2>
+                <p>What can I help you with today?</p>
+            </div>
+        </div>
+
+        <div class="input-box">
+            <input type="text" id="userInput" placeholder="Ask FreDo AI..." autocomplete="off" />
+            <button class="voice-btn" onclick="startVoice()" title="Voice input">🎤</button>
+            <button class="send-btn" onclick="sendMessage()" title="Send">➤</button>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>
