@@ -732,20 +732,3 @@ async function trackUser() {
         console.log("Analytics disabled");
     }
 }
-// script.js में:
-async function initializeAuth() {
-    // हर user को unique ID मिलती है
-    const result = await auth.signInAnonymously();
-    console.log("User ID:", result.user.uid);
-    // Example: "xYz123abc" (Unique for every user)
-}
-
-// Messages save करते समय:
-function saveMessageToDB(text, sender) {
-    const messageData = {
-        text: text,
-        sender: sender,
-        userId: user.uid,  // 👈 यहाँ user ID save होती है
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    };
-}
