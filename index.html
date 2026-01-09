@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FreeDo AI - Your Learning Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="description" content="FreeDo AI - Interactive learning assistant for all subjects">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+</head>
+<body>
+    <!-- 🔐 LOGIN SCREEN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="logo-area">
+                <img src="logo.png" alt="FreeDo AI Logo" class="app-logo">
+                <h1>FreeDo AI</h1>
+                <p class="tagline">Your Personal Learning Assistant</p>
+            </div>
+            
+            <div class="login-form">
+                <h2>Welcome Back</h2>
+                <div class="input-group">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button onclick="login()" class="login-btn">Login</button>
+                <button onclick="showRegister()" class="secondary-btn">Create Account</button>
+                <button onclick="guestLogin()" class="guest-btn">Continue as Guest</button>
+                
+                <div class="language-selector">
+                    <label for="langSelect">Language:</label>
+                    <select id="langSelect" onchange="changeLanguage(this.value)">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="hi-en">Hinglish</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                <p>By continuing, you agree to our Terms & Privacy Policy</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔄 REGISTER SCREEN -->
+    <div id="registerScreen" class="login-screen hidden">
+        <div class="login-container">
+            <div class="logo-area">
+                <img src="logo.png" alt="FreeDo AI Logo" class="app-logo">
+                <h1>Create Account</h1>
+            </div>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPassword" placeholder="Password (min 6 chars)" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+                </div>
+                <div class="input-group">
+                    <select id="regGrade" required>
+                        <option value="">Select Grade/Class</option>
+                        <option value="school">School Student</option>
+                        <option value="college">College Student</option>
+                        <option value="professional">Working Professional</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <button onclick="register()" class="login-btn">Create Account</button>
+                <button onclick="showLogin()" class="secondary-btn">Back to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎯 MAIN APP (Hidden initially) -->
+    <div id="mainApp" class="hidden">
+        <!-- ☰ MENU BUTTON -->
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+        <!-- OVERLAY -->
+        <div id="overlay" onclick="toggleSidebar()"></div>
+
+        <!-- 🔹 SIDEBAR -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <img src="logo.png" alt="User" class="user-avatar">
+                    <div>
+                        <div id="sidebarUserName" class="user-name">User</div>
+                        <div id="sidebarUserEmail" class="user-email">user@example.com</div>
+                    </div>
+                </div>
+                <button class="close-btn" onclick="toggleSidebar()">✖</button>
+            </div>
+            
+            <div class="sidebar-actions">
+                <button class="new-chat-top" onclick="createNewChat()">+ New Chat</button>
+                <button class="sidebar-btn" onclick="showSubjects()">
+                    📚 Subjects
+                </button>
+                <button class="sidebar-btn" onclick="showLearningPath()">
+                    🎯 Learning Path
+                </button>
+                <button class="sidebar-btn" onclick="showHistory()">
+                    📜 History
+                </button>
+                <button class="sidebar-btn" onclick="showSettings()">
+                    ⚙️ Settings
+                </button>
+            </div>
+
+            <div id="chatList" class="chat-list"></div>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- 🔹 MAIN CHAT -->
+        <div class="app">
+            <div class="header">
+                <div class="header-title" id="headerTitle">🤖 FreeDo AI</div>
+                <div class="header-subtitle" id="headerSubtitle">Your Learning Assistant</div>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleVoice()" title="Voice Mode">
+                        <span id="voiceIcon">🎤</span>
+                    </button>
+                    <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
+                        🌙
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUBJECT SELECTOR -->
+            <div id="subjectSelector" class="subject-selector hidden">
+                <h3>Choose a Subject</h3>
+                <div class="subject-grid">
+                    <button class="subject-btn" onclick="selectSubject('math')">📐 Mathematics</button>
+                    <button class="subject-btn" onclick="selectSubject('science')">🔬 Science</button>
+                    <button class="subject-btn" onclick="selectSubject('physics')">⚛️ Physics</button>
+                    <button class="subject-btn" onclick="selectSubject('chemistry')">🧪 Chemistry</button>
+                    <button class="subject-btn" onclick="selectSubject('biology')">🧬 Biology</button>
+                    <button class="subject-btn" onclick="selectSubject('computer')">💻 Computer Science</button>
+                    <button class="subject-btn" onclick="selectSubject('english')">📖 English</button>
+                    <button class="subject-btn" onclick="selectSubject('hindi')">🇮🇳 Hindi</button>
+                    <button class="subject-btn" onclick="selectSubject('sst')">🌍 Social Studies</button>
+                    <button class="subject-btn" onclick="selectSubject('programming')">👨‍💻 Programming</button>
+                </div>
+                <button class="close-subjects" onclick="hideSubjects()">Close</button>
+            </div>
+
+            <!-- CHAT AREA -->
+            <div id="chat" class="chat">
+                <div id="emptyState" class="empty-state">
+                    <h2>Welcome to FreeDo AI! 👋</h2>
+                    <p>I can help you learn:</p>
+                    <ul class="features-list">
+                        <li>📚 All school subjects</li>
+                        <li>💻 Programming & coding</li>
+                        <li>🔍 Wikipedia search</li>
+                        <li>🎤 Voice interaction</li>
+                        <li>🎯 Personalized learning</li>
+                    </ul>
+                    <button class="get-started-btn" onclick="showSubjects()">Start Learning</button>
+                </div>
+            </div>
+
+            <!-- INPUT BOX -->
+            <div class="input-box">
+                <div class="input-actions">
+                    <button class="action-btn" onclick="showSubjects()" title="Subjects">📚</button>
+                    <button class="action-btn" onclick="attachFile()" title="Attach File">📎</button>
+                </div>
+                <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off" />
+                <button class="voice-btn" onclick="toggleVoiceInput()" title="Voice input">
+                    <span id="voiceBtnIcon">🎤</span>
+                </button>
+                <button class="send-btn" onclick="sendMessage()" title="Send">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & App Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwSDGt8fi9wd-r4eH6iM5vHKuLmcJ1Ajo",
+            authDomain: "fredo-ai-972da.firebaseapp.com",
+            projectId: "fredo-ai-972da",
+            storageBucket: "fredo-ai-972da.firebasestorage.app",
+            messagingSenderId: "472370985214",
+            appId: "1:472370985214:web:d709e662491e57523a0daf"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
+    <script src="auth.js"></script>
+    <script src="subject-data.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
